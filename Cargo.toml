@@ -5,7 +5,7 @@ edition = "2021"
 license = "Apache-2.0"
 rust-version = "1.70"
 description = "Git remote helper that rides the Hecate/Macula mesh via the local hecate-daemon"
-repository = "https://github.com/hecate-social/git-remote-mesh"
+repository = "https://github.com/macula-io/git-remote-mesh"
 readme = "README.md"
 
 [[bin]]
