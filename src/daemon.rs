@@ -83,9 +83,13 @@ pub async fn call(mesh: &MeshUrl, op: &str, stdin: &[u8]) -> Result<CallResponse
     })?;
 
     let uri: hyper::Uri = Uri::new(&sock, "/api/git/rpc").into();
+    // hyperlocal synthesizes a hex-encoded Host header from the socket
+    // path, which cowboy rejects (400) because of the `:0` port. Set an
+    // explicit Host so cowboy's request parser accepts it.
     let req = Request::builder()
         .method(Method::POST)
         .uri(uri)
+        .header("host", "localhost")
         .header("content-type", "application/json")
         .body(Body::from(body))?;
 
