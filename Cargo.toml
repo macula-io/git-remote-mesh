@@ -1,0 +1,34 @@
+[package]
+name = "git-remote-mesh"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+rust-version = "1.70"
+description = "Git remote helper that rides the Hecate/Macula mesh via the local hecate-daemon"
+repository = "https://github.com/hecate-social/git-remote-mesh"
+readme = "README.md"
+
+[[bin]]
+name = "git-remote-mesh"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "io-util", "io-std", "process", "fs"] }
+hyper = { version = "0.14", features = ["client", "http1"] }
+hyperlocal = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+anyhow = "1"
+thiserror = "1"
+url = "2"
+
+[dev-dependencies]
+tempfile = "3"
+assert_cmd = "2"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = "z"
