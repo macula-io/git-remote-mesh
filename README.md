@@ -1,7 +1,7 @@
 # git-remote-mesh
 
 A tiny `git` remote helper that teaches git to clone and fetch over the
-Hecate/Macula mesh.
+Macula mesh.
 
 ```bash
 git clone mesh://io.macula/01HZY00000000000000000ABCD my-repo
@@ -16,20 +16,20 @@ off I/O to it.
 
 This helper does **not** speak QUIC, DHT, or Macula RPC itself. It is
 deliberately thin: it forwards git's stateless-rpc pkt-line payloads to
-the **local** `hecate-daemon` over a Unix socket, and the daemon — which
+the **local** mesh daemon over a Unix socket, and the daemon — which
 is already a mesh client — performs the actual `macula:call` to the
 target node.
 
 ```
 ┌────────────────┐   pkt-line   ┌─────────────────┐   HTTP/Unix   ┌───────────────┐   QUIC    ┌──────────────┐
-│ git clone ...  │ ───────────▶ │ git-remote-mesh │ ────────────▶ │ hecate-daemon │ ─────────▶│ Macula relay │
+│ git clone ...  │ ───────────▶ │ git-remote-mesh │ ────────────▶ │ local daemon  │ ─────────▶│ Macula relay │
 └────────────────┘              └─────────────────┘               └───────────────┘           └──────────────┘
 ```
 
 ## Prerequisites
 
-* A running `hecate-daemon` on the local machine. Every hecate-ish tool
-  assumes this — `git-remote-mesh` is no exception.
+* A running local mesh daemon. That daemon is retired, so this helper has
+  no backend today; see [#1](https://github.com/macula-io/git-remote-mesh/issues/1).
 * Rust 1.70+ to build from source.
 * `git` (for `index-pack`).
 
@@ -62,8 +62,6 @@ mesh://<realm>/<repo_id>
 | `realm`   | `io.macula`                      | Realm identifier. No slashes.              |
 | `repo_id` | `01HZY00000000000000000ABCD`     | UUIDv7 issued by `guide_repo_lifecycle`.   |
 
-Copy the URL from the hecate-web `/git` catalog UI (landing in Phase 4).
-
 ### Human-name resolution — not yet
 
 `mesh://did:realm:alice/config` style URLs are planned but not in v1 —
@@ -89,20 +87,10 @@ they need a DID-to-repo_id resolver endpoint on the daemon. Use raw
 |----------------------------|-------------------------------------------------------------|-----------------------------------------------|
 | `HECATE_DAEMON_SOCKET`     | Override the daemon Unix-socket path.                       | `$HOME/.hecate/hecate-daemon/sockets/api.sock` |
 
-## Design doc
-
-This helper is Phase 3 of
-`hecate-social/hecate-station:plans/PLAN_GIT_OVER_MESH.md`. That plan
-covers the full stack — aggregate, projection, mesh RPC server, this
-helper, the Svelte browsing UX, and the macula-realm gitops
-migration.
-
 ## Troubleshooting
 
 **"hecate-daemon socket not found"** — the daemon isn't running, or it's
-running with a non-default `HECATE_DAEMON_SOCKET`. Check with
-`systemctl --user status hecate-daemon` (podman Quadlet deploy) or
-whatever supervisor you use.
+running with a non-default `HECATE_DAEMON_SOCKET`.
 
 **"fetch failed: repo_not_on_disk"** — the target node has the repo
 initiated in its event store but hasn't materialised a bare git dir on

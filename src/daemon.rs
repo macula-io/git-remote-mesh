@@ -1,4 +1,4 @@
-//! HTTP client that talks to the local hecate-daemon over its Unix socket.
+//! HTTP client that talks to the local daemon over its Unix socket.
 //!
 //! The daemon is already a Macula mesh client. The only job here is to
 //! hand it a `{realm, repo_id, op, stdin}` payload and let the daemon

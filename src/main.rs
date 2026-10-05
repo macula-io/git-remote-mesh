@@ -2,8 +2,7 @@
 //!
 //! Git invokes us as `git-remote-mesh <remote-name> <url>` and speaks
 //! the remote-helper protocol on stdio. We delegate all mesh work to
-//! the local `hecate-daemon` over its Unix socket — there is no Rust
-//! macula SDK, by design.
+//! the local daemon over its Unix socket.
 
 mod daemon;
 mod helper;
