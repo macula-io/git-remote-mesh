@@ -1,5 +1,17 @@
 # git-remote-mesh
 
+> **Retired (2026-10-06). This repository is archived and nothing here works today.**
+>
+> The helper speaks no mesh protocol itself: it forwards git's pkt-lines over a Unix socket to a local
+> `hecate-daemon`, and that daemon is retired. No mesh service serves git repositories either, so a
+> `mesh://` URL has nothing to reach. The code and its history stay here, read only; a future
+> git-over-mesh would dial the mesh directly through the Rust SDK (`macula-rust`) and start from a
+> git-serving provider, not from this helper.
+
+What follows is the README as it stood before retirement.
+
+---
+
 A tiny `git` remote helper that teaches git to clone and fetch over the
 Macula mesh.
 

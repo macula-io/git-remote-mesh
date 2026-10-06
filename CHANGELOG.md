@@ -2,6 +2,11 @@
 
 All notable changes to `git-remote-mesh` are documented here.
 
+## Retired — 2026-10-06
+
+The repository is archived. Its only backend, `hecate-daemon`, is retired and no mesh service serves git
+repositories, so the helper cannot work. See the README.
+
 ## 0.1.0 — 2026-04-21
 
 Initial release. Clone-only MVP for Phase 3 of PLAN_GIT_OVER_MESH.
